@@ -9,3 +9,66 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+// Наименование автобусных маршрутов
+model BusRoutes {
+  id       Int     @id @default(autoincrement())
+  title    String  @unique
+  from     String
+  to       String
+  distance Float
+  buses    Buses[]
+
+  //Waybills Waybills?
+}
+
+// Список автобусов
+model Buses {
+  id             Int    @id @default(autoincrement())
+  vehicle_number String @unique
+  vin            String @unique
+  category       String
+  brand          String
+  model          String
+
+  routes      BusRoutes @relation(fields: [busRoutesId], references: [id])
+  busRoutesId Int
+
+  drivers Drivers[]
+
+  //Waybills Waybills?
+}
+
+// Список водителей
+model Drivers {
+  id         Int     @id @default(autoincrement())
+  surname    String
+  name       String
+  patronymic String? @default("")
+  license    String
+
+  buses   Buses @relation(fields: [busesId], references: [id])
+  busesId Int
+
+  //Waybills Waybills?
+}
+
+// Путевой лист
+// model Waybills {
+//   id     String @id @default(cuid())
+//   number Int
+//   date   String
+
+//   bus     Buses @relation(fields: [busesId], references: [id])
+//   busesId Int   @unique
+
+//   start_mileage Float
+//   end_mileage   Float
+//   mileage       Float
+
+//   rout        BusRoutes @relation(fields: [busRoutesId], references: [id])
+//   busRoutesId Int       @unique
+
+//   driver    Drivers @relation(fields: [driversId], references: [id])
+//   driversId Int     @unique
+// }
