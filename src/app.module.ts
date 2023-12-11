@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config'
 import { GraphQLModule } from '@nestjs/graphql'
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import { join } from 'path'
+import { BusRoutesModule } from './busroutes/busroutes.module'
 
 @Module({
   imports: [
@@ -13,10 +14,11 @@ import { join } from 'path'
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
-      playground: true
-    })
+      playground: true,
+    }),
+    BusRoutesModule,
   ],
   controllers: [],
   providers: [],
 })
-export class AppModule { }
+export class AppModule {}
