@@ -41,8 +41,8 @@ model Buses {
 // Список водителей
 model Drivers {
   id         Int     @id @default(autoincrement())
-  surname    String
-  name       String
+  lastName   String
+  firstName  String
   patronymic String? @default("")
   license    String
   busesId    Int

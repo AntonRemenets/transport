@@ -20,5 +20,6 @@ import { BusRoutesModule } from './busroutes/busroutes.module'
   ],
   controllers: [],
   providers: [],
+  exports: []
 })
-export class AppModule {}
+export class AppModule { }

@@ -6,7 +6,7 @@ const PORT = Number(process.env.PORT)
 async function start() {
   const app = await NestFactory.create(AppModule)
   await app.listen(PORT, async () =>
-    console.log(`Application is running on: ${await app.getUrl()}`),
+    console.log(`Application is running on: http://localhost:${PORT}`),
   )
 }
 
