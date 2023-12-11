@@ -19,7 +19,7 @@ model BusRoutes {
   distance Float
   buses    Buses[]
 
-  //Waybills Waybills?
+  // Waybills Waybills?
 }
 
 // Список автобусов
@@ -30,13 +30,12 @@ model Buses {
   category       String
   brand          String
   model          String
+  busRoutesId    Int
 
-  routes      BusRoutes @relation(fields: [busRoutesId], references: [id])
-  busRoutesId Int
-
+  routes  BusRoutes @relation(fields: [busRoutesId], references: [id])
   drivers Drivers[]
 
-  //Waybills Waybills?
+  // Waybills Waybills?
 }
 
 // Список водителей
@@ -46,11 +45,11 @@ model Drivers {
   name       String
   patronymic String? @default("")
   license    String
+  busesId    Int
 
-  buses   Buses @relation(fields: [busesId], references: [id])
-  busesId Int
+  buses Buses @relation(fields: [busesId], references: [id])
 
-  //Waybills Waybills?
+  // Waybills Waybills?
 }
 
 // Путевой лист
