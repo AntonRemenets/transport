@@ -1,9 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 
-export class CreateRouteDto {
-  @ApiProperty({ type: String })
-  title: string
-
+export class UpdateRouteDto {
   @ApiProperty({ type: String })
   from: string
 
