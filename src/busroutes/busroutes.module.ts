@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common'
 import { BusRoutesService } from './busroutes.service'
-import { BusRoutesResolver } from './busroutes.resolver'
 import { PrismaService } from 'src/prisma/prisma.service'
+import { BusRoutesController } from './busroutes.controller'
 
 @Module({
   imports: [],
-  providers: [BusRoutesService, BusRoutesResolver, PrismaService],
+  providers: [BusRoutesService, PrismaService],
+  controllers: [BusRoutesController],
 })
-export class BusRoutesModule { }
+export class BusRoutesModule {}
