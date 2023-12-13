@@ -21,7 +21,7 @@ export class BusRoutesController {
     return await this.routeService.getAll()
   }
 
-  @Post('create')
+  @Post()
   @ApiBody({ type: CreateRouteDto })
   @ApiResponse({
     status: 200,
@@ -32,7 +32,7 @@ export class BusRoutesController {
     return await this.routeService.createRoute(dto)
   }
 
-  @Put('/:id')
+  @Put(':id')
   @ApiBody({ type: UpdateRouteDto })
   @ApiResponse({
     status: 200,
@@ -46,11 +46,11 @@ export class BusRoutesController {
     return await this.routeService.updateRoute(Number(id), dto)
   }
 
-  @Delete('delete/:id')
+  @Delete(':id')
   @ApiResponse({
     status: 200,
     description: 'Удалить определенный маршрут',
-    type: [BusRoutesType],
+    type: BusRoutesType,
   })
   async deleteRoute(@Param('id') id: string): Promise<BusRoutes> {
     return await this.routeService.deleteRoute(Number(id))
