@@ -3,6 +3,7 @@ import { CreateDriverDto } from './dto/create-driver.dto'
 import { UpdateDriverDto } from './dto/update-driver.dto'
 import { PrismaService } from '../prisma/prisma.service'
 import { Driver } from './entities/driver.entity'
+import toUpperCaseTransform from '../utils/toUpperString'
 
 @Injectable()
 export class DriversService {
@@ -10,13 +11,16 @@ export class DriversService {
 
   async create(dto: CreateDriverDto): Promise<Driver> {
     try {
+      const { lastName, firstName, patronymic, license, busesId } =
+        toUpperCaseTransform(dto)
+
       return this.prisma.drivers.create({
         data: {
-          lastName: dto.lastName.toUpperCase(),
-          firstName: dto.firstName.toUpperCase(),
-          patronymic: dto.patronymic.toUpperCase(),
-          license: dto.license.toUpperCase(),
-          busesId: dto.busesId,
+          lastName,
+          firstName,
+          patronymic,
+          license,
+          busesId,
         },
       })
     } catch (e) {
@@ -40,14 +44,17 @@ export class DriversService {
 
   async update(id: number, dto: UpdateDriverDto): Promise<Driver> {
     try {
+      const { lastName, firstName, patronymic, license, busesId } =
+        toUpperCaseTransform(dto)
+
       return this.prisma.drivers.update({
         where: { id },
         data: {
-          lastName: dto.lastName.toUpperCase(),
-          firstName: dto.firstName.toUpperCase(),
-          patronymic: dto.patronymic.toUpperCase(),
-          license: dto.license.toUpperCase(),
-          busesId: dto.busesId,
+          lastName,
+          firstName,
+          patronymic,
+          license,
+          busesId,
         },
       })
     } catch (e) {

@@ -3,6 +3,7 @@ import { CreateBusDto } from './dto/create-bus.dto'
 import { UpdateBusDto } from './dto/update-bus.dto'
 import { PrismaService } from '../prisma/prisma.service'
 import { Bus } from './entities/bus.entity'
+import toUpperCaseTransform from '../utils/toUpperString'
 
 @Injectable()
 export class BusesService {
@@ -10,14 +11,17 @@ export class BusesService {
 
   async create(dto: CreateBusDto): Promise<Bus> {
     try {
+      const { vehicle_number, vin, category, brand, model, busRoutesId } =
+        toUpperCaseTransform(dto)
+
       return this.prisma.buses.create({
         data: {
-          vehicle_number: dto.vehicle_number.toUpperCase(),
-          vin: dto.vin.toUpperCase(),
-          category: dto.category.toUpperCase(),
-          brand: dto.brand.toUpperCase(),
-          model: dto.model.toUpperCase(),
-          busRoutesId: dto.busRoutesId,
+          vehicle_number,
+          vin,
+          category,
+          brand,
+          model,
+          busRoutesId,
         },
       })
     } catch (e) {
@@ -41,14 +45,17 @@ export class BusesService {
 
   async update(id: number, dto: UpdateBusDto): Promise<Bus> {
     try {
+      const { vin, category, brand, model, busRoutesId } =
+        toUpperCaseTransform(dto)
+
       return this.prisma.buses.update({
         where: { id },
         data: {
-          vin: dto.vin.toUpperCase(),
-          category: dto.category.toUpperCase(),
-          brand: dto.brand.toUpperCase(),
-          model: dto.model.toUpperCase(),
-          busRoutesId: dto.busRoutesId,
+          vin,
+          category,
+          brand,
+          model,
+          busRoutesId,
         },
       })
     } catch (e) {
