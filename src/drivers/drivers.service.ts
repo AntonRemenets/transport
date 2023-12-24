@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { CreateDriverDto } from './dto/create-driver.dto'
 import { UpdateDriverDto } from './dto/update-driver.dto'
 import { PrismaService } from '../prisma/prisma.service'
-import { Driver } from './entities/driver.entity'
+import { Driver } from './driver.entity'
 import toUpperCaseTransform from '../utils/toUpperString'
 
 @Injectable()

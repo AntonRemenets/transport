@@ -11,7 +11,7 @@ import { BusesService } from './buses.service'
 import { CreateBusDto } from './dto/create-bus.dto'
 import { UpdateBusDto } from './dto/update-bus.dto'
 import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger'
-import { Bus } from './entities/bus.entity'
+import { Bus } from './bus.entity'
 
 @ApiTags('Автобусы')
 @Controller('buses')

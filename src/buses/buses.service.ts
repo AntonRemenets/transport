@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { CreateBusDto } from './dto/create-bus.dto'
 import { UpdateBusDto } from './dto/update-bus.dto'
 import { PrismaService } from '../prisma/prisma.service'
-import { Bus } from './entities/bus.entity'
+import { Bus } from './bus.entity'
 import toUpperCaseTransform from '../utils/toUpperString'
 
 @Injectable()

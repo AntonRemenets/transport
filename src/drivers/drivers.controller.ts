@@ -11,7 +11,7 @@ import { DriversService } from './drivers.service'
 import { CreateDriverDto } from './dto/create-driver.dto'
 import { UpdateDriverDto } from './dto/update-driver.dto'
 import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger'
-import { Driver } from './entities/driver.entity'
+import { Driver } from './driver.entity'
 
 @Controller('drivers')
 @ApiTags('Водители')

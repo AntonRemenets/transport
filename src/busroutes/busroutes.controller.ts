@@ -3,7 +3,7 @@ import { BusRoutesService } from './busroutes.service'
 import { CreateRouteDto } from './dto/create-route.dto'
 import { BusRoutes } from '@prisma/client'
 import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger'
-import { BusRoutesType } from './dto/type'
+import { BusRoutesType } from './busroute.entity'
 import { UpdateRouteDto } from './dto/update-route.dto'
 
 @ApiTags('Автобусные маршруты')
