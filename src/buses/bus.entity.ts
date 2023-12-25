@@ -1,24 +1,25 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { Field, ID, ObjectType } from '@nestjs/graphql'
 
+@ObjectType({ description: 'Bus model' })
 export class Bus {
-  @ApiProperty({ required: false })
+  @Field(() => ID)
   id: number
 
-  @ApiProperty()
+  @Field()
   vehicle_number: string
 
-  @ApiProperty()
+  @Field()
   vin: string
 
-  @ApiProperty()
+  @Field()
   category: string
 
-  @ApiProperty()
+  @Field()
   brand: string
 
-  @ApiProperty()
+  @Field()
   model: string
 
-  @ApiProperty()
+  @Field()
   busRoutesId: number
 }

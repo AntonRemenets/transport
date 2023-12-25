@@ -1,21 +1,22 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { Field, ID, ObjectType } from '@nestjs/graphql'
 
+@ObjectType({ description: 'Drivers model' })
 export class Driver {
-  @ApiProperty({ required: false })
+  @Field(() => ID)
   id: number
 
-  @ApiProperty()
+  @Field()
   lastName: string
 
-  @ApiProperty()
+  @Field()
   firstName: string
 
-  @ApiProperty()
+  @Field({ nullable: true })
   patronymic?: string
 
-  @ApiProperty()
+  @Field()
   license: string
 
-  @ApiProperty()
+  @Field()
   busesId: number
 }
