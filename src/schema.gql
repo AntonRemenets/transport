@@ -1,0 +1,16 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+"""Bus Routes model"""
+type BusRoutesType {
+  distance: Float!
+  from: String!
+  id: ID!
+  title: String!
+  to: String!
+}
+
+type Query {
+  BusRoutes: [BusRoutesType!]!
+}
