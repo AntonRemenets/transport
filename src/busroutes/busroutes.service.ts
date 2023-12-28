@@ -50,6 +50,13 @@ export class BusRoutesService {
 
   // Delete
   async deleteRoute(id: number): Promise<BusRoutes> {
+    const candidate = await this.prisma.busRoutes.findUnique({
+      where: { id },
+    })
+    if (!candidate) {
+      throw new BadRequestException(`Маршрут ${id} не найден`)
+    }
+
     return this.prisma.busRoutes.delete({
       where: { id },
     })
