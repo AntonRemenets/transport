@@ -11,6 +11,26 @@ type BusRoutesType {
   to: String!
 }
 
+input CreateRouteDto {
+  distance: Float!
+  from: String!
+  title: String!
+  to: String!
+}
+
+type Mutation {
+  createRoute(createRouteInput: CreateRouteDto!): BusRoutesType!
+  deleteRoute(id: Int!): BusRoutesType!
+  updateRoute(id: Int!, updateRouteInput: UpdateRouteDto!): BusRoutesType!
+}
+
 type Query {
   BusRoutes: [BusRoutesType!]!
+}
+
+input UpdateRouteDto {
+  distance: Float
+  from: String
+  title: String
+  to: String
 }

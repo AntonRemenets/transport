@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable } from '@nestjs/common'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { BusRoutes } from '@prisma/client'
 import { CreateRouteDto } from './dto/create-route.dto'
@@ -16,48 +16,42 @@ export class BusRoutesService {
 
   // Create
   async createRoute(dto: CreateRouteDto): Promise<BusRoutes> {
-    try {
-      const { title, from, to, distance } = toUpperCaseTransform(dto)
-
-      return this.prisma.busRoutes.create({
-        data: {
-          title,
-          from,
-          to,
-          distance,
-        },
-      })
-    } catch (e) {
-      console.log(e)
+    const newRoute = await this.prisma.busRoutes.findUnique({
+      where: { title: dto.title },
+    })
+    if (newRoute) {
+      throw new BadRequestException('Такой маршрут уже существует')
     }
+    const { title, from, to, distance } = toUpperCaseTransform(dto)
+
+    return this.prisma.busRoutes.create({
+      data: {
+        title,
+        from,
+        to,
+        distance,
+      },
+    })
   }
 
   // Update
   async updateRoute(id: number, dto: UpdateRouteDto): Promise<BusRoutes> {
-    try {
-      const { from, to, distance } = toUpperCaseTransform(dto)
+    const { from, to, distance } = toUpperCaseTransform(dto)
 
-      return this.prisma.busRoutes.update({
-        where: { id },
-        data: {
-          from,
-          to,
-          distance,
-        },
-      })
-    } catch (e) {
-      console.log(e)
-    }
+    return this.prisma.busRoutes.update({
+      where: { id },
+      data: {
+        from,
+        to,
+        distance,
+      },
+    })
   }
 
   // Delete
   async deleteRoute(id: number): Promise<BusRoutes> {
-    try {
-      return this.prisma.busRoutes.delete({
-        where: { id },
-      })
-    } catch (e) {
-      console.log(e)
-    }
+    return this.prisma.busRoutes.delete({
+      where: { id },
+    })
   }
 }
