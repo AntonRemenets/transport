@@ -38,6 +38,13 @@ export class BusRoutesService {
   async updateRoute(id: number, dto: UpdateRouteDto): Promise<BusRoutes> {
     const { from, to, distance } = toUpperCaseTransform(dto)
 
+    const candidate = await this.prisma.busRoutes.findUnique({
+      where: { id },
+    })
+    if (!candidate) {
+      throw new BadRequestException(`Маршрут ${id} не найден`)
+    }
+
     return this.prisma.busRoutes.update({
       where: { id },
       data: {
