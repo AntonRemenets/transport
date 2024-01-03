@@ -11,6 +11,34 @@ type BusRoutesType {
   to: String!
 }
 
+"""Bus model"""
+type BusType {
+  brand: String!
+  busRoutesId: Int!
+  category: String!
+  id: ID!
+  model: String!
+  vehicle_number: String!
+  vin: String!
+}
+
+input CreateBusDto {
+  brand: String!
+  busRoutesId: Int!
+  category: String!
+  model: String!
+  vehicle_number: String!
+  vin: String!
+}
+
+input CreateDriverDto {
+  busesId: Int!
+  firstName: String!
+  lastName: String!
+  license: String!
+  patronymic: String!
+}
+
 input CreateRouteDto {
   distance: Float!
   from: String!
@@ -18,7 +46,23 @@ input CreateRouteDto {
   to: String!
 }
 
+"""Drivers model"""
+type DriverType {
+  busesId: Int!
+  firstName: String!
+  id: ID!
+  lastName: String!
+  license: String!
+  patronymic: String
+}
+
 type Mutation {
+  CreateBus(createBusInput: CreateBusDto!): BusType!
+  CreateDriver(createDriverInput: CreateDriverDto!): DriverType!
+  DeleteBus(id: Int!): BusType!
+  DeleteDriver(id: Int!): DriverType!
+  UpdateBus(id: Int!, updateBusInput: UpdateBusDto!): BusType!
+  UpdateDriver(id: Int!, updateDriverInput: UpdateDriverDto!): DriverType!
   createRoute(createRouteInput: CreateRouteDto!): BusRoutesType!
   deleteRoute(id: Int!): BusRoutesType!
   updateRoute(id: Int!, updateRouteInput: UpdateRouteDto!): BusRoutesType!
@@ -26,6 +70,27 @@ type Mutation {
 
 type Query {
   BusRoutes: [BusRoutesType!]!
+  Buses: [BusType!]!
+  GetAllDrivers: [DriverType!]!
+  GetBusById(id: Int!): BusType!
+  GetOneDriver(id: Int!): DriverType!
+}
+
+input UpdateBusDto {
+  brand: String
+  busRoutesId: Int
+  category: String
+  model: String
+  vehicle_number: String
+  vin: String
+}
+
+input UpdateDriverDto {
+  busesId: Int
+  firstName: String
+  lastName: String
+  license: String
+  patronymic: String
 }
 
 input UpdateRouteDto {

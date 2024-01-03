@@ -1,74 +1,86 @@
-import { Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable } from '@nestjs/common'
 import { CreateDriverDto } from './dto/create-driver.dto'
 import { UpdateDriverDto } from './dto/update-driver.dto'
 import { PrismaService } from '../prisma/prisma.service'
-import { Driver } from './driver.entity'
+import { DriverType } from './driver.entity'
 import toUpperCaseTransform from '../utils/toUpperString'
 
 @Injectable()
 export class DriversService {
   constructor(private prisma: PrismaService) {}
 
-  async create(dto: CreateDriverDto): Promise<Driver> {
-    try {
-      const { lastName, firstName, patronymic, license, busesId } =
-        toUpperCaseTransform(dto)
-
-      return this.prisma.drivers.create({
-        data: {
-          lastName,
-          firstName,
-          patronymic,
-          license,
-          busesId,
-        },
-      })
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  async findAll(): Promise<Driver[]> {
+  //GetAll
+  async findAll(): Promise<DriverType[]> {
     return this.prisma.drivers.findMany()
   }
 
-  async findOne(id: number): Promise<Driver> {
-    try {
-      return this.prisma.drivers.findUnique({
-        where: { id },
-      })
-    } catch (e) {
-      console.log(e)
+  //GetOne
+  async findOne(id: number): Promise<DriverType> {
+    const candidate = await this.prisma.drivers.findUnique({
+      where: { id },
+    })
+    if (!candidate) {
+      throw new BadRequestException('Водитель в базе не найден')
     }
+    return candidate
   }
 
-  async update(id: number, dto: UpdateDriverDto): Promise<Driver> {
-    try {
-      const { lastName, firstName, patronymic, license, busesId } =
-        toUpperCaseTransform(dto)
-
-      return this.prisma.drivers.update({
-        where: { id },
-        data: {
-          lastName,
-          firstName,
-          patronymic,
-          license,
-          busesId,
-        },
-      })
-    } catch (e) {
-      console.log(e)
+  //Create
+  async create(dto: CreateDriverDto): Promise<DriverType> {
+    const { lastName, firstName, patronymic, license, busesId } =
+      toUpperCaseTransform(dto)
+    const candidate = await this.prisma.buses.findFirst({
+      where: { id: busesId },
+    })
+    if (!candidate) {
+      throw new BadRequestException(`Автобуса с id: ${busesId} не существует`)
     }
+
+    return this.prisma.drivers.create({
+      data: {
+        lastName,
+        firstName,
+        patronymic,
+        license,
+        busesId,
+      },
+    })
   }
 
-  async remove(id: number): Promise<Driver> {
-    try {
-      return this.prisma.drivers.delete({
-        where: { id },
-      })
-    } catch (e) {
-      console.log(e)
+  //Update
+  async update(id: number, dto: UpdateDriverDto): Promise<DriverType> {
+    const { lastName, firstName, patronymic, license, busesId } =
+      toUpperCaseTransform(dto)
+    const candidate = await this.prisma.drivers.findUnique({
+      where: { id },
+    })
+    if (!candidate) {
+      throw new BadRequestException('Водитель в базе не найден')
     }
+
+    return this.prisma.drivers.update({
+      where: { id },
+      data: {
+        lastName,
+        firstName,
+        patronymic,
+        license,
+        busesId,
+      },
+    })
+  }
+
+  //Delete
+  async remove(id: number): Promise<DriverType> {
+    const candidate = await this.prisma.drivers.findUnique({
+      where: { id },
+    })
+    if (!candidate) {
+      throw new BadRequestException('Водитель в базе не найден')
+    }
+
+    return this.prisma.drivers.delete({
+      where: { id },
+    })
   }
 }

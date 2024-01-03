@@ -1,11 +1,4 @@
-import {
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsPositive,
-  IsString,
-  Min,
-} from 'class-validator'
+import { IsNumber, IsPositive, Min } from 'class-validator'
 import { Field, Float, InputType, PartialType } from '@nestjs/graphql'
 import { CreateRouteDto } from './create-route.dto'
 

@@ -1,18 +1,27 @@
-import { IsNumber, IsOptional, IsString } from 'class-validator'
+import { IsNotEmpty, IsNumber, IsOptional, IsPositive } from 'class-validator'
+import { Field, InputType } from '@nestjs/graphql'
 
+@InputType()
 export class CreateDriverDto {
-  @IsString({ message: 'Должно быть строкой' })
+  @Field()
+  @IsNotEmpty({ message: 'Значение не должно быть пустым' })
   lastName: string
 
-  @IsString({ message: 'Должно быть строкой' })
+  @Field()
+  @IsNotEmpty({ message: 'Значение не должно быть пустым' })
   firstName: string
 
-  @IsString({ message: 'Должно быть строкой' })
+  @Field()
   @IsOptional()
   patronymic?: string
 
+  @Field()
+  @IsNotEmpty({ message: 'Значение не должно быть пустым' })
   license: string
-  
+
+  @Field()
+  @IsNotEmpty({ message: 'Значение не должно быть пустым' })
   @IsNumber()
+  @IsPositive({ message: 'Значение должно быть корректным' })
   busesId: number
 }

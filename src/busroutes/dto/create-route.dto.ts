@@ -1,4 +1,4 @@
-import { IsEmpty, IsNotEmpty, IsNumber, IsPositive, Min } from 'class-validator'
+import { IsNotEmpty, IsNumber, IsPositive, Min } from 'class-validator'
 import { Field, Float, InputType } from '@nestjs/graphql'
 
 @InputType()

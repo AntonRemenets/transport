@@ -1,18 +1,22 @@
-import { IsNumber, IsOptional, IsString } from 'class-validator'
+import { IsNumber } from 'class-validator'
+import { Field, InputType, PartialType } from '@nestjs/graphql'
+import { CreateDriverDto } from './create-driver.dto'
 
-export class UpdateDriverDto {
-  @IsString({ message: 'Должно быть строкой' })
+@InputType()
+export class UpdateDriverDto extends PartialType(CreateDriverDto) {
+  @Field({ nullable: true })
   lastName: string
 
-  @IsString({ message: 'Должно быть строкой' })
+  @Field({ nullable: true })
   firstName: string
 
-  @IsString({ message: 'Должно быть строкой' })
-  @IsOptional()
+  @Field({ nullable: true })
   patronymic?: string
 
+  @Field({ nullable: true })
   license: string
-  
+
+  @Field({ nullable: true })
   @IsNumber()
   busesId: number
 }

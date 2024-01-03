@@ -1,4 +1,4 @@
-import { Resolver, Query, Args, Mutation } from '@nestjs/graphql'
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { BusRoutesType } from './busroute.entity'
 import { BusRoutesService } from './busroutes.service'
 import { CreateRouteDto } from './dto/create-route.dto'

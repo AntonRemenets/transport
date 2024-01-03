@@ -1,18 +1,30 @@
-import { IsNumber, IsString, Length } from 'class-validator'
+import { IsIn, IsNumber, IsPositive, Length } from 'class-validator'
+import { Field, InputType, PartialType } from '@nestjs/graphql'
+import { CreateBusDto } from './create-bus.dto'
 
-export class UpdateBusDto {
-  @IsString({ message: 'Должно быть строкой' })
+@InputType()
+export class UpdateBusDto extends PartialType(CreateBusDto) {
+  @Field({ nullable: true })
   @Length(17, 17, { message: 'Вин номер должен состоять из 17 символов' })
-  vin: string
+  vin?: string
 
-  @IsString({ message: 'Должно быть строкой' })
-  @Length(1, 1, { message: 'Категория должна содержать 1 букву' })
-  category: string
+  @Field({ nullable: true })
+  vehicle_number?: string
 
-  brand: string
+  @Field({ nullable: true })
+  @IsIn(['A', 'B', 'C', 'D'], {
+    message: 'Катеогрия должно принимать одно из следующих значений A B C D',
+  })
+  category?: string
 
-  model: string
+  @Field({ nullable: true })
+  brand?: string
 
+  @Field({ nullable: true })
+  model?: string
+
+  @Field({ nullable: true })
   @IsNumber()
-  busRoutesId: number
+  @IsPositive({ message: 'Значение должно быть положительным' })
+  busRoutesId?: number
 }

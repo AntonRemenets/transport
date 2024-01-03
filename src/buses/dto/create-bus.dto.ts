@@ -1,21 +1,35 @@
-import { IsNumber, IsString, Length } from 'class-validator'
+import { IsIn, IsNotEmpty, IsNumber, IsPositive, Length } from 'class-validator'
+import { Field, InputType } from '@nestjs/graphql'
 
+@InputType()
 export class CreateBusDto {
-  @IsString({ message: 'Должно быть строкой' })
+  @Field()
+  @IsNotEmpty({ message: 'Значение не должно быть пустым' })
   vehicle_number: string
 
-  @IsString({ message: 'Должно быть строкой' })
+  @Field()
+  @IsNotEmpty({ message: 'Значение не должно быть пустым' })
   @Length(17, 17, { message: 'Вин номер должен состоять из 17 символов' })
   vin: string
 
-  @IsString({ message: 'Должно быть строкой' })
-  @Length(1, 1, { message: 'Категория должна содержать 1 букву' })
+  @Field()
+  @IsNotEmpty({ message: 'Значение не должно быть пустым' })
+  //@Length(1, 1, { message: 'Категория должна содержать 1 букву' })
+  @IsIn(['A', 'B', 'C', 'D'], {
+    message: 'Катеогрия должно принимать одно из следующих значений A B C D',
+  })
   category: string
 
+  @Field()
+  @IsNotEmpty({ message: 'Значение не должно быть пустым' })
   brand: string
 
+  @Field()
+  @IsNotEmpty({ message: 'Значение не должно быть пустым' })
   model: string
 
+  @Field()
+  @IsPositive({ message: 'Значение должно быть положительным' })
   @IsNumber()
   busRoutesId: number
 }
