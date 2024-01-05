@@ -32,4 +32,9 @@ export class CreateBusDto {
   @IsPositive({ message: 'Значение должно быть положительным' })
   @IsNumber()
   busRoutesId: number
+
+  @Field({ nullable: true })
+  @IsNumber()
+  @IsPositive({ message: 'Значение должно быть положительным' })
+  driverId?: number
 }

@@ -1,4 +1,4 @@
-import { IsIn, IsNumber, IsPositive, Length } from 'class-validator'
+import { IsIn, IsNumber, IsOptional, IsPositive, Length } from 'class-validator'
 import { Field, InputType, PartialType } from '@nestjs/graphql'
 import { CreateBusDto } from './create-bus.dto'
 
@@ -27,4 +27,16 @@ export class UpdateBusDto extends PartialType(CreateBusDto) {
   @IsNumber()
   @IsPositive({ message: 'Значение должно быть положительным' })
   busRoutesId?: number
+
+  @Field({ nullable: true })
+  @IsNumber()
+  @IsOptional()
+  @IsPositive({ message: 'Значение должно быть положительным' })
+  addDriverId?: number
+
+  @Field({ nullable: true })
+  @IsNumber()
+  @IsOptional()
+  @IsPositive({ message: 'Значение должно быть положительным' })
+  removeDriverId?: number
 }

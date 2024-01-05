@@ -19,9 +19,8 @@ export class CreateDriverDto {
   @IsNotEmpty({ message: 'Значение не должно быть пустым' })
   license: string
 
-  @Field()
-  @IsNotEmpty({ message: 'Значение не должно быть пустым' })
+  @Field({ nullable: true })
   @IsNumber()
-  @IsPositive({ message: 'Значение должно быть корректным' })
-  busesId: number
+  @IsPositive({ message: 'Значение должно быть положительным' })
+  busId?: number
 }

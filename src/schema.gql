@@ -4,6 +4,7 @@
 
 """Bus Routes model"""
 type BusRoutesType {
+  buses: [BusType!]!
   distance: Float!
   from: String!
   id: ID!
@@ -16,6 +17,7 @@ type BusType {
   brand: String!
   busRoutesId: Int!
   category: String!
+  drivers: [DriverType!]!
   id: ID!
   model: String!
   vehicle_number: String!
@@ -26,13 +28,14 @@ input CreateBusDto {
   brand: String!
   busRoutesId: Int!
   category: String!
+  driverId: Int
   model: String!
   vehicle_number: String!
   vin: String!
 }
 
 input CreateDriverDto {
-  busesId: Int!
+  busId: Int
   firstName: String!
   lastName: String!
   license: String!
@@ -48,7 +51,7 @@ input CreateRouteDto {
 
 """Drivers model"""
 type DriverType {
-  busesId: Int!
+  buses: [BusType!]!
   firstName: String!
   id: ID!
   lastName: String!
@@ -77,20 +80,25 @@ type Query {
 }
 
 input UpdateBusDto {
+  addDriverId: Int
   brand: String
   busRoutesId: Int
   category: String
+  driverId: Int
   model: String
+  removeDriverId: Int
   vehicle_number: String
   vin: String
 }
 
 input UpdateDriverDto {
-  busesId: Int
+  addBusId: Int
+  busId: Int
   firstName: String
   lastName: String
   license: String
   patronymic: String
+  removeBusId: Int
 }
 
 input UpdateRouteDto {

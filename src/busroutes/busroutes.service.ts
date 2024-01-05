@@ -10,19 +10,23 @@ export class BusRoutesService {
   constructor(private prisma: PrismaService) {}
 
   // Read
-  async getAll(): Promise<BusRoutes[] | null> {
-    return this.prisma.busRoutes.findMany()
+  async getAll(): Promise<BusRoutes[]> {
+    const busesRoutes = await this.prisma.busRoutes.findMany({
+      include: { buses: true },
+    })
+
+    return busesRoutes
   }
 
   // Create
   async createRoute(dto: CreateRouteDto): Promise<BusRoutes> {
-    const newRoute = await this.prisma.busRoutes.findUnique({
+    const { title, from, to, distance } = toUpperCaseTransform(dto)
+    const newRoute = await this.prisma.busRoutes.findFirst({
       where: { title: dto.title },
     })
     if (newRoute) {
       throw new BadRequestException('Такой маршрут уже существует')
     }
-    const { title, from, to, distance } = toUpperCaseTransform(dto)
 
     return this.prisma.busRoutes.create({
       data: {

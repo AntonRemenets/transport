@@ -1,4 +1,5 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql'
+import { BusType } from '../buses/bus.entity'
 
 @ObjectType({ description: 'Drivers model' })
 export class DriverType {
@@ -17,6 +18,6 @@ export class DriverType {
   @Field()
   license: string
 
-  @Field()
-  busesId: number
+  @Field(() => [BusType])
+  buses: BusType[]
 }
