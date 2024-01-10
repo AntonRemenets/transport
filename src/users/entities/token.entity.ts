@@ -1,5 +1,6 @@
-import { HydratedDocument } from 'mongoose'
+import mongoose, { HydratedDocument } from 'mongoose'
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
+import { User } from './user.entity'
 
 export type TokenDocument = HydratedDocument<Token>
 
@@ -11,8 +12,8 @@ export class Token {
   @Prop({ type: Date })
   exp: Date
 
-  @Prop({ type: String, ref: 'User' })
-  userId: string
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+  userId: User
 }
 
 export const TokenSchema = SchemaFactory.createForClass(Token)
