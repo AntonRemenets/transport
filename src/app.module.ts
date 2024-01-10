@@ -6,6 +6,8 @@ import { DriversModule } from './drivers/drivers.module'
 import { GraphQLModule } from '@nestjs/graphql'
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import { join } from 'path'
+import { MongooseModule } from '@nestjs/mongoose'
+import { UsersModule } from './users/users.module'
 
 @Module({
   imports: [
@@ -21,9 +23,11 @@ import { join } from 'path'
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    MongooseModule.forRoot(process.env.MONGO_URL),
     BusRoutesModule,
     BusesModule,
     DriversModule,
+    UsersModule,
   ],
   controllers: [],
   providers: [],
