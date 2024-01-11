@@ -10,7 +10,7 @@ export class Token {
   token: string
 
   @Prop({ type: Date })
-  exp: Date
+  expiresIn: Date
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   userId: User
