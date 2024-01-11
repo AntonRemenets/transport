@@ -1,6 +1,10 @@
+import { IsEmail, IsNotEmpty } from 'class-validator'
+
 export class CreateUserDto {
-  id?: string
+  @IsNotEmpty({ message: 'Значение не должно быть пустым' })
+  @IsEmail()
   email: string
+
+  @IsNotEmpty({ message: 'Значение не должно быть пустым' })
   password: string
-  roles?: string
 }
