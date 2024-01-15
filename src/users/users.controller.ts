@@ -12,9 +12,8 @@ export class UsersController {
 
   // Create
   @UseInterceptors(MongooseClassSerializerInterceptor(User))
-  //@SerializeOptions({ strategy: 'excludeAll' })
   @Post()
-  async create(@Body() dto: CreateUserDto) {
+  async create(@Body() dto: CreateUserDto): Promise<User> {
     return await this.usersService.create(dto)
   }
 
