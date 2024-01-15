@@ -8,6 +8,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import { join } from 'path'
 import { MongooseModule } from '@nestjs/mongoose'
 import { UsersModule } from './users/users.module'
+import { AuthModule } from './auth/auth.module'
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { UsersModule } from './users/users.module'
     BusesModule,
     DriversModule,
     UsersModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],

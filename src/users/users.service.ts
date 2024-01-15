@@ -3,7 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { InjectModel } from '@nestjs/mongoose'
 import { Role, User } from './entities/user.entity'
-import { Model } from 'mongoose'
+import mongoose, { Model } from 'mongoose'
 import { genSaltSync, hashSync } from 'bcrypt'
 import { DeleteUserDto } from './dto/delete-user.dto'
 
@@ -18,6 +18,7 @@ export class UsersService {
     if (candidate) {
       throw new BadRequestException(`Пользователь с почтой ${dto.email} уже зарегистророван`)
     }
+
     return await this.userModel.create({
       email: dto.email,
       password: hashedPassword,
@@ -54,16 +55,23 @@ export class UsersService {
 
   // Delete
   async remove(dto: DeleteUserDto) {
-    if (dto.id.match(/^[0-9a-fA-F]{24}$/)) {
-      // Yes, it's a valid ObjectId, proceed with `findById` call.
+    if (mongoose.Types.ObjectId.isValid(dto.id)) {
       const candidate = await this.userModel.findById(dto.id)
       if (!candidate) {
         throw new BadRequestException(`Пользователь с id ${dto.id} не найден`)
-      } else {
-        throw new BadRequestException('Введите корректный id')
       }
+    } else {
+      throw new BadRequestException('Проверьте правильность ввода id')
     }
 
-    return await this.userModel.deleteOne({ _id: dto.id })
+    try {
+      await this.userModel.deleteOne({ _id: dto.id })
+
+      return {
+        id: dto.id,
+      }
+    } catch (e) {
+      console.log(e)
+    }
   }
 }
