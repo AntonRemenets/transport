@@ -12,7 +12,7 @@ export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
   // Create
-  async create(dto: CreateUserDto): Promise<User> | null {
+  public async create(dto: CreateUserDto): Promise<User> | null {
     const user: User = await this.userModel
       .findOne({ email: dto.email })
       .exec()
@@ -38,7 +38,7 @@ export class UsersService {
   }
 
   // Find One
-  async findOne(email: string): Promise<User> | null {
+  public async findOne(email: string): Promise<User> | null {
     const user: User = await this.userModel.findOne({ email })
     if (!user) {
       return null

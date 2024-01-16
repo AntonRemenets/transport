@@ -1,6 +1,5 @@
-import { Body, Controller, Delete, Get, Patch, Post, UseInterceptors } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Patch, UseInterceptors } from '@nestjs/common'
 import { UsersService } from './users.service'
-import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { DeleteUserDto } from './dto/delete-user.dto'
 import MongooseClassSerializerInterceptor from '../utils/mongoose.serializer'
@@ -11,11 +10,11 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   // Create
-  @UseInterceptors(MongooseClassSerializerInterceptor(User))
-  @Post()
-  async create(@Body() dto: CreateUserDto): Promise<User> {
-    return await this.usersService.create(dto)
-  }
+  // @UseInterceptors(MongooseClassSerializerInterceptor(User))
+  // @Post()
+  // async create(@Body() dto: CreateUserDto): Promise<User> {
+  //   return await this.usersService.create(dto)
+  // }
 
   //FindAll
   @Get()
