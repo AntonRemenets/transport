@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Get,
   HttpStatus,
   Post,
   Res,
@@ -15,6 +16,7 @@ import { User } from '../users/entities/user.entity'
 import { LoginDto } from './dto/login.dto'
 import { Tokens } from './tokens.interface'
 import { Response } from 'express'
+import { Cookie } from '../decorators/cookie.decorator'
 
 const REFRESH_TOKEN = 'refreshtoken'
 
@@ -22,6 +24,7 @@ const REFRESH_TOKEN = 'refreshtoken'
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  // Register user
   @UseInterceptors(MongooseClassSerializerInterceptor(User))
   @Post('register')
   async register(@Body() dto: RegisterDto): Promise<User> | null {
@@ -32,6 +35,7 @@ export class AuthController {
     return user
   }
 
+  // Login
   @Post('login')
   async login(@Body() dto: LoginDto, @Res() res: Response) {
     const tokens: Tokens = await this.authService.login(dto)
@@ -41,11 +45,30 @@ export class AuthController {
     this.setRefreshTokenToCookies(tokens, res)
   }
 
-  // @Get('logout')
-  // async logout() {}
+  // Logout
+  @Get('logout')
+  async logout(@Cookie(REFRESH_TOKEN) refreshToken: string, @Res() res: Response) {
+    if (!refreshToken) {
+      res.sendStatus(HttpStatus.OK)
+      return
+    }
+    await this.authService.deleteRefreshToken(refreshToken)
+    res.cookie(REFRESH_TOKEN, '', { httpOnly: true, secure: true, expires: new Date() })
+    res.sendStatus(HttpStatus.OK)
+  }
 
-  // @Get('refresh-tokens')
-  // async refreshToken() {}
+  // Get refresh token
+  @Get('refresh-tokens')
+  async refreshTokens(@Cookie(REFRESH_TOKEN) refreshToken: string, @Res() res: Response) {
+    if (!refreshToken) {
+      throw new UnauthorizedException()
+    }
+    const tokens = await this.authService.refreshTokens(refreshToken)
+    if (!tokens) {
+      throw new UnauthorizedException()
+    }
+    this.setRefreshTokenToCookies(tokens, res)
+  }
 
   private setRefreshTokenToCookies(tokens: Tokens, res: Response) {
     if (!tokens) {

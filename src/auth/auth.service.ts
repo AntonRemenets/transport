@@ -49,17 +49,17 @@ export class AuthService {
         email: user.email,
         roles: user.roles,
       })
-    const refreshToken: Token = await this.getRefreshToken(user._id)
+    const refreshToken: Token = await this.generateRefreshToken(user._id)
     return { accessToken, refreshToken }
   }
 
   // Get refresh token
-  private async getRefreshToken(userId: string): Promise<Token> {
-    const token: Token = await this.tokenModel.findOne({ userId }).exec()
-    //const token = _token?.token ?? null
+  private async generateRefreshToken(userId: string): Promise<Token> {
+    const _token: Token = await this.tokenModel.findOne({ userId }).exec()
+    const token = _token?.token ?? null
 
     if (!token) {
-      return this.tokenModel.create({
+      return await this.tokenModel.create({
         token: v4(),
         expiresIn: add(new Date(), { months: 1 }),
         userId,
@@ -72,6 +72,22 @@ export class AuthService {
         token: v4(),
         expiresIn: add(new Date(), { months: 1 }),
       },
+      { new: true },
     )
+  }
+
+  // Refresh token
+  async refreshTokens(refreshToken: string): Promise<Tokens> {
+    const token = await this.tokenModel.findOneAndDelete({ token: refreshToken })
+    if (!token || new Date(token.expiresIn) < new Date()) {
+      throw new UnauthorizedException()
+    }
+    const user: User = await this.userService.findOneById(token.userId)
+    return this.generateTokens(user)
+  }
+
+  // Delete refresh token
+  async deleteRefreshToken(token: string) {
+    return this.tokenModel.deleteOne({ token })
   }
 }

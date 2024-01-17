@@ -46,6 +46,15 @@ export class UsersService {
     return user
   }
 
+  // Find one by id
+  public async findOneById(id: any): Promise<User> {
+    const user: User = await this.userModel.findById(id)
+    if (!user) {
+      return null
+    }
+    return user
+  }
+
   // Update
   async update(dto: UpdateUserDto): Promise<User> {
     const hashedPassword: string = hashSync(dto.password, genSaltSync(10))
