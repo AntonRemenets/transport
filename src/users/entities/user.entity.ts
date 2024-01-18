@@ -28,8 +28,8 @@ export class User {
   @Prop({ type: Date, default: Date.now })
   updatedAt: Date
 
-  @Prop({ type: String, enum: Role, default: Role.USER })
-  roles: string
+  @Prop({ type: String, enum: [Role], default: Role.USER })
+  roles: Role[]
 }
 
 export const UserSchema = SchemaFactory.createForClass(User)

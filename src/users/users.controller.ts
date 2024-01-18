@@ -1,9 +1,11 @@
-import { Body, Controller, Delete, Get, Patch, UseInterceptors } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Patch, UseGuards, UseInterceptors } from '@nestjs/common'
 import { UsersService } from './users.service'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { DeleteUserDto } from './dto/delete-user.dto'
 import MongooseClassSerializerInterceptor from '../utils/mongoose.serializer'
-import { User } from './entities/user.entity'
+import { Role, User } from './entities/user.entity'
+import { RolesGuard } from '../guards/roles.guards'
+import { Roles } from '../decorators/roles.decorator'
 
 @Controller('users')
 export class UsersController {
@@ -17,6 +19,8 @@ export class UsersController {
   // }
 
   //FindAll
+  @UseGuards(RolesGuard)
+  @Roles(Role.ADMIN)
   @Get()
   async findAll() {
     return await this.usersService.findAll()

@@ -25,8 +25,8 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   // Register user
-  @UseInterceptors(MongooseClassSerializerInterceptor(User))
   @Post('register')
+  @UseInterceptors(MongooseClassSerializerInterceptor(User))
   async register(@Body() dto: RegisterDto): Promise<User> | null {
     const user: User = await this.authService.register(dto)
     if (!user) {
