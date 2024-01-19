@@ -4,9 +4,12 @@ import { UpdateUserDto } from './dto/update-user.dto'
 import { DeleteUserDto } from './dto/delete-user.dto'
 import MongooseClassSerializerInterceptor from '../utils/mongoose.serializer'
 import { Role, User } from './entities/user.entity'
-import { RolesGuard } from '../guards/roles.guards'
 import { Roles } from '../decorators/roles.decorator'
+import { RolesGuard } from '../guards/roles.guards'
+import { Public } from 'src/decorators/public.decorator'
+import { JwtAuthGuard } from '../guards/jwt-auth.guards'
 
+@Public()
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -19,7 +22,7 @@ export class UsersController {
   // }
 
   //FindAll
-  @UseGuards(RolesGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)
   @Get()
   async findAll() {

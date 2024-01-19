@@ -4,22 +4,19 @@ import { AuthController } from './auth.controller'
 import { AuthService } from './auth.service'
 import { MongooseModule } from '@nestjs/mongoose'
 import { User, UserSchema } from '../users/entities/user.entity'
-import { JwtModule } from '@nestjs/jwt'
 import { Token, TokenSchema } from '../users/entities/token.entity'
+import { PassportModule } from '@nestjs/passport'
 
 @Module({
   imports: [
-    JwtModule.register({
-      global: true,
-      secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '5m' },
-    }),
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },
       { name: Token.name, schema: TokenSchema },
     ]),
+    PassportModule,
   ],
   providers: [AuthService, UsersService],
   controllers: [AuthController],
+  exports: [AuthModule],
 })
 export class AuthModule {}

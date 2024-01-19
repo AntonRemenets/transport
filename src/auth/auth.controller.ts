@@ -14,7 +14,7 @@ import { AuthService } from './auth.service'
 import MongooseClassSerializerInterceptor from '../utils/mongoose.serializer'
 import { User } from '../users/entities/user.entity'
 import { LoginDto } from './dto/login.dto'
-import { Tokens } from './tokens.interface'
+import { Tokens } from './interfaces'
 import { Response } from 'express'
 import { Cookie } from '../decorators/cookie.decorator'
 

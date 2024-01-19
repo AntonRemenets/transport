@@ -9,6 +9,7 @@ import { join } from 'path'
 import { MongooseModule } from '@nestjs/mongoose'
 import { UsersModule } from './users/users.module'
 import { AuthModule } from './auth/auth.module'
+import { JwtModule } from '@nestjs/jwt'
 
 @Module({
   imports: [
@@ -23,6 +24,11 @@ import { AuthModule } from './auth/auth.module'
     }),
     ConfigModule.forRoot({
       isGlobal: true,
+    }),
+    JwtModule.register({
+      global: true,
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '5m' },
     }),
     MongooseModule.forRoot(process.env.MONGO_URL),
     BusRoutesModule,

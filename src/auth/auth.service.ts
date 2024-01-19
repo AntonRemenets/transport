@@ -10,7 +10,7 @@ import { Token } from '../users/entities/token.entity'
 import { Model } from 'mongoose'
 import { add } from 'date-fns'
 import { v4 } from 'uuid'
-import { Tokens } from './tokens.interface'
+import { Tokens } from './interfaces'
 
 @Injectable()
 export class AuthService {
@@ -65,7 +65,6 @@ export class AuthService {
         userId,
       })
     }
-
     return this.tokenModel.findOneAndUpdate(
       { token },
       {
