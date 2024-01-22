@@ -6,10 +6,10 @@ import MongooseClassSerializerInterceptor from '../utils/mongoose.serializer'
 import { Role, User } from './entities/user.entity'
 import { Roles } from '../decorators/roles.decorator'
 import { RolesGuard } from '../guards/roles.guards'
-import { Public } from 'src/decorators/public.decorator'
 import { JwtAuthGuard } from '../guards/jwt-auth.guards'
 
-@Public()
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(Role.ADMIN)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -22,8 +22,6 @@ export class UsersController {
   // }
 
   //FindAll
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN)
   @Get()
   async findAll() {
     return await this.usersService.findAll()
