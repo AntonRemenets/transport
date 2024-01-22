@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable, Logger } from '@nestjs/common'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { InjectModel } from '@nestjs/mongoose'
@@ -9,6 +9,8 @@ import { DeleteUserDto } from './dto/delete-user.dto'
 
 @Injectable()
 export class UsersService {
+  private readonly logger = new Logger(UsersService.name)
+
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
   // Create
@@ -17,7 +19,7 @@ export class UsersService {
       .findOne({ email: dto.email })
       .exec()
       .catch(err => {
-        console.log(err)
+        this.logger.error(err)
         return null
       })
     if (user) {
@@ -25,21 +27,35 @@ export class UsersService {
     }
     const hashedPassword: string = hashSync(dto.password, genSaltSync(10))
 
-    return await this.userModel.create({
-      email: dto.email,
-      password: hashedPassword,
-      roles: Role.USER,
-    })
+    return await this.userModel
+      .create({
+        email: dto.email,
+        password: hashedPassword,
+        roles: Role.USER,
+      })
+      .catch(err => {
+        this.logger.error(err)
+        return null
+      })
   }
 
   // Find all
   async findAll(): Promise<User[]> {
-    return await this.userModel.find().exec()
+    return await this.userModel
+      .find()
+      .exec()
+      .catch(err => {
+        this.logger.error(err)
+        return null
+      })
   }
 
   // Find One
   public async findOne(email: string): Promise<User> | null {
-    const user: User = await this.userModel.findOne({ email })
+    const user: User = await this.userModel.findOne({ email }).catch(err => {
+      this.logger.error(err)
+      return null
+    })
     if (!user) {
       return null
     }
@@ -89,8 +105,8 @@ export class UsersService {
       return {
         id: dto.id,
       }
-    } catch (e) {
-      console.log(e)
+    } catch (err) {
+      this.logger.error(err)
     }
   }
 }
