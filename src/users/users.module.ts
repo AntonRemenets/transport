@@ -9,7 +9,16 @@ import { AuthModule } from '../auth/auth.module'
 import { JwtStrategy } from '../strategies/jwt.strategy'
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]), AuthModule, PassportModule],
+  imports: [
+    MongooseModule.forFeature([
+      {
+        name: User.name,
+        schema: UserSchema,
+      },
+    ]),
+    AuthModule,
+    PassportModule,
+  ],
   controllers: [UsersController],
   providers: [UsersService, JwtStrategy, ...GUARDS],
   exports: [UsersService],

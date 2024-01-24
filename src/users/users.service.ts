@@ -26,17 +26,16 @@ export class UsersService {
       throw new BadRequestException(`Пользователь с почтой ${dto.email} уже зарегистророван`)
     }
     const hashedPassword: string = hashSync(dto.password, genSaltSync(10))
+    const newUser = {
+      email: dto.email,
+      password: hashedPassword,
+      roles: Role.USER,
+    }
 
-    return await this.userModel
-      .create({
-        email: dto.email,
-        password: hashedPassword,
-        roles: Role.USER,
-      })
-      .catch(err => {
-        this.logger.error(err)
-        return null
-      })
+    return await this.userModel.create(newUser).catch(err => {
+      this.logger.error(err)
+      return null
+    })
   }
 
   // Find all
