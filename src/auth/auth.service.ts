@@ -24,18 +24,12 @@ export class AuthService {
 
   // Register new user
   async register(dto: RegisterDto): Promise<User> | null {
-    return await this.userService.create(dto).catch(err => {
-      this.logger.error(err)
-      return null
-    })
+    return await this.userService.create(dto)
   }
 
   // Login
   async login(dto: LoginDto): Promise<Tokens> {
-    const user: User = await this.userService.findOne(dto.email).catch(err => {
-      this.logger.error(err)
-      return null
-    })
+    const user: User = await this.userService.findOne(dto.email)
     if (!user || !compareSync(dto.password, user.password)) {
       throw new UnauthorizedException('Не верный логин или пароль')
     }
@@ -57,13 +51,8 @@ export class AuthService {
 
   // Get refresh token
   private async generateRefreshToken(userId: string): Promise<Token> {
-    const _token: Token = await this.tokenModel
-      .findOne({ userId })
-      .exec()
-      .catch(err => {
-        this.logger.error(err)
-        return null
-      })
+    const _token: Token = await this.tokenModel.findOne({ userId }).exec()
+
     const token = _token?.token ?? null
 
     if (!token) {
@@ -85,9 +74,7 @@ export class AuthService {
 
   // Refresh token
   async refreshTokens(refreshToken: string): Promise<Tokens> {
-    const token = await this.tokenModel.findOneAndDelete({ token: refreshToken }).catch(err => {
-      this.logger.error(err)
-    })
+    const token = await this.tokenModel.findOneAndDelete({ token: refreshToken })
     if (!token || new Date(token.expiresIn) < new Date()) {
       throw new UnauthorizedException()
     }
@@ -97,8 +84,6 @@ export class AuthService {
 
   // Delete refresh token
   async deleteRefreshToken(token: string) {
-    return this.tokenModel.deleteOne({ token }).catch(err => {
-      this.logger.error(err)
-    })
+    return this.tokenModel.deleteOne({ token })
   }
 }

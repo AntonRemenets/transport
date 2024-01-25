@@ -10,6 +10,7 @@ import { MongooseModule } from '@nestjs/mongoose'
 import { UsersModule } from './users/users.module'
 import { AuthModule } from './auth/auth.module'
 import { JwtModule } from '@nestjs/jwt'
+import { RedisModule } from '@liaoliaots/nestjs-redis'
 
 @Module({
   imports: [
@@ -29,6 +30,11 @@ import { JwtModule } from '@nestjs/jwt'
       global: true,
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '5m' },
+    }),
+    RedisModule.forRoot({
+      config: {
+        url: process.env.REDIS_URL,
+      },
     }),
     MongooseModule.forRoot(process.env.MONGO_URL),
     BusRoutesModule,
