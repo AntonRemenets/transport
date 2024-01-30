@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, UseGuards, UseInterceptors } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Ip, Param, Patch, UseGuards, UseInterceptors } from '@nestjs/common'
 import { UsersService } from './users.service'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { DeleteUserDto } from './dto/delete-user.dto'
@@ -29,8 +29,8 @@ export class UsersController {
 
   // Find one by email
   @Get(':email')
-  findOne(@Param('email') email: string) {
-    return this.usersService.findOne(email)
+  findOne(@Param('email') email: string, @Ip() ip: string) {
+    return this.usersService.findOne(email, ip)
   }
 
   // Update

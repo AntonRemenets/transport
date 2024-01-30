@@ -4,6 +4,7 @@ import {
   Controller,
   Get,
   HttpStatus,
+  Ip,
   Post,
   Res,
   UnauthorizedException,
@@ -27,8 +28,8 @@ export class AuthController {
   // Register user
   @Post('register')
   @UseInterceptors(MongooseClassSerializerInterceptor(User))
-  async register(@Body() dto: RegisterDto): Promise<User> | null {
-    const user: User = await this.authService.register(dto)
+  async register(@Body() dto: RegisterDto, @Ip() ip: string): Promise<User> | null {
+    const user: User = await this.authService.register(dto, ip)
     if (!user) {
       throw new BadRequestException(`Не получается зарегистрировать пользователя с данными ${JSON.stringify(dto)}`)
     }
@@ -37,8 +38,8 @@ export class AuthController {
 
   // Login
   @Post('login')
-  async login(@Body() dto: LoginDto, @Res() res: Response) {
-    const tokens: Tokens = await this.authService.login(dto)
+  async login(@Body() dto: LoginDto, @Res() res: Response, @Ip() ip: string) {
+    const tokens: Tokens = await this.authService.login(dto, ip)
     if (!tokens) {
       throw new BadRequestException(`Не получается войти с данными ${JSON.stringify(dto)}`)
     }

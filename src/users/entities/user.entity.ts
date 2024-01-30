@@ -30,6 +30,9 @@ export class User {
 
   @Prop({ type: String, enum: [Role], default: Role.USER })
   roles: Role[]
+
+  @Prop({ type: String })
+  ip?: string
 }
 
 export const UserSchema = SchemaFactory.createForClass(User)

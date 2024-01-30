@@ -23,16 +23,17 @@ export class AuthService {
   ) {}
 
   // Register new user
-  async register(dto: RegisterDto): Promise<User> | null {
-    return await this.userService.create(dto)
+  async register(dto: RegisterDto, ip: string): Promise<User> | null {
+    return await this.userService.create(dto, ip)
   }
 
   // Login
-  async login(dto: LoginDto): Promise<Tokens> {
-    const user: User = await this.userService.findOne(dto.email)
+  async login(dto: LoginDto, ip: string): Promise<Tokens> {
+    const user: User = await this.userService.findOne(dto.email, ip)
     if (!user || !compareSync(dto.password, user.password)) {
       throw new UnauthorizedException('Не верный логин или пароль')
     }
+
     return this.generateTokens(user)
   }
 

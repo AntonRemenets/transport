@@ -19,7 +19,7 @@ export class UsersService {
   }
 
   // Create
-  public async create(dto: CreateUserDto): Promise<User> {
+  public async create(dto: CreateUserDto, ip: string): Promise<User> {
     const user: User = await this.userModel.findOne({ email: dto.email }).exec()
     if (user) {
       throw new BadRequestException(`Пользователь с почтой ${dto.email} уже зарегистророван`)
@@ -29,6 +29,7 @@ export class UsersService {
       email: dto.email,
       password: hashedPassword,
       roles: Role.USER,
+      ip,
     }
     await this.redis.set(newUser.email, JSON.stringify(newUser))
 
@@ -41,11 +42,13 @@ export class UsersService {
   }
 
   // Find One
-  public async findOne(email: string): Promise<User> | null {
+  public async findOne(email: string, ip: string): Promise<User> | null {
     const user: User = await this.userModel.findOne({ email })
     if (!user) {
       return null
     }
+    await this.userModel.updateOne({ email }, { ip })
+
     return user
   }
 
