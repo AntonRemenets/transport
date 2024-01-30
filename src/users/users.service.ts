@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common'
+import { BadRequestException, ForbiddenException, Injectable, Logger } from '@nestjs/common'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { InjectModel } from '@nestjs/mongoose'
@@ -20,6 +20,10 @@ export class UsersService {
 
   // Create
   public async create(dto: CreateUserDto, ip: string): Promise<User> {
+    const count: number = await this.userModel.countDocuments({})
+    if (count >= 25) {
+      throw new ForbiddenException('Превышен лимит на создание пользователей. Обратитсь к администратору.')
+    }
     const user: User = await this.userModel.findOne({ email: dto.email }).exec()
     if (user) {
       throw new BadRequestException(`Пользователь с почтой ${dto.email} уже зарегистророван`)
