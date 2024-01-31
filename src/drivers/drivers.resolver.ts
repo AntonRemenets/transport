@@ -1,10 +1,15 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { DriverType } from './driver.entity'
 import { DriversService } from './drivers.service'
-import { ParseIntPipe } from '@nestjs/common'
+import { ParseIntPipe, UseGuards } from '@nestjs/common'
 import { CreateDriverDto } from './dto/create-driver.dto'
 import { UpdateDriverDto } from './dto/update-driver.dto'
+import { GqlJwtAuthGuard } from '../guards/gql.guards'
+import { Roles } from '../decorators/roles.decorator'
+import { Role } from '../users/entities/user.entity'
 
+@UseGuards(GqlJwtAuthGuard)
+@Roles(Role.USER)
 @Resolver('Drivers')
 export class DriversResolver {
   constructor(private readonly driversService: DriversService) {}
@@ -23,9 +28,7 @@ export class DriversResolver {
 
   //Create
   @Mutation(() => DriverType, { name: 'CreateDriver' })
-  async createDriver(
-    @Args('createDriverInput') createDriverInput: CreateDriverDto,
-  ) {
+  async createDriver(@Args('createDriverInput') createDriverInput: CreateDriverDto) {
     return await this.driversService.create(createDriverInput)
   }
 

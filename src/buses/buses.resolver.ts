@@ -1,10 +1,15 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { BusesService } from './buses.service'
 import { BusType } from './bus.entity'
-import { ParseIntPipe } from '@nestjs/common'
+import { ParseIntPipe, UseGuards } from '@nestjs/common'
 import { CreateBusDto } from './dto/create-bus.dto'
 import { UpdateBusDto } from './dto/update-bus.dto'
+import { GqlJwtAuthGuard } from '../guards/gql.guards'
+import { Roles } from '../decorators/roles.decorator'
+import { Role } from '../users/entities/user.entity'
 
+@UseGuards(GqlJwtAuthGuard)
+@Roles(Role.USER)
 @Resolver('Buses')
 export class BusesResolver {
   constructor(private readonly busService: BusesService) {}
@@ -29,10 +34,7 @@ export class BusesResolver {
 
   //Update
   @Mutation(() => BusType, { name: 'UpdateBus' })
-  async updateBus(
-    @Args('id', ParseIntPipe) id: number,
-    @Args('updateBusInput') updateBusInput: UpdateBusDto,
-  ) {
+  async updateBus(@Args('id', ParseIntPipe) id: number, @Args('updateBusInput') updateBusInput: UpdateBusDto) {
     return await this.busService.update(id, updateBusInput)
   }
 
