@@ -11,9 +11,14 @@ import { UsersModule } from './users/users.module'
 import { AuthModule } from './auth/auth.module'
 import { JwtModule } from '@nestjs/jwt'
 import { RedisModule } from '@liaoliaots/nestjs-redis'
+import { ServeStaticModule } from '@nestjs/serve-static'
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public'),
+      serveRoot: '/',
+    }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
