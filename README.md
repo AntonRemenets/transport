@@ -1,25 +1,7 @@
-## Env file
-Добаваить переменные в env файл:
+Что должно быть в html
 
-PORT
-
-DATABASE_URL
-
-## Installation
-
-```bash
-$ npm install
-```
-
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
+1 приветствие
+2 стек приложения
+3 эндпойнты rest + graphql
+4 описание баз данных + схема postgres
+5 схема приложения
