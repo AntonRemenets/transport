@@ -1,18 +1,18 @@
 <!doctype html>
-<html lang='en'>
+<html lang="en">
 <head>
-  <meta charset='UTF-8'>
-  <meta name='viewport'
-        content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
-  <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Transport API</title>
 </head>
 <body>
 <h1>Transport</h1>
 <p>Добро пожаловать на страничку моего проекта Путник!</p>
 <p>Этот учебный проект создан на фреймворке NestJS и несет цель демонстацию навыков программированиия серверной части
-  программ. Схема приложения тут.</p>
-<p>Используемый стек:</p>
+  программ. Принципиальная схема приложения <a href="app.jpg">тут</a>.</p>
+<h2>Стек приложения.</h2>
 <ul>
   <li>интерфесы - RestApi, GraphQL</li>
   <li>базы данных - Postgres, MongoDB, Redis</li>
@@ -22,7 +22,8 @@
   <li>раздача статичной верстки средствами ServeStatic</li>
   <li>Nginx - куда ж без него</li>
 </ul>
-<p>Для REST API используются эндпойнты:</p>
+<h2>Эндпойнты.</h2>
+<p>Для REST API:</p>
 <ul>
   <li>/auth/register - регистрация нового пользователя. На вход ожидается обьект с полями email и password</li>
   <li>/auth/login - на вход ожидается обьект с полями email и password</li>
@@ -31,16 +32,15 @@
   <li>кроме того существуют закрытые роуты для администротора</li>
 </ul>
 <p>Для GraphQL эндпойнт - /graphql. Можно пользоваться в браузере(playgraund=true). Не забыть указать токен
-  authorisation, тип bearer. Токен выдается при логине.</p>
+  authorization, тип bearer. Токен выдается при логине.</p>
 <h2>Базы данных.</h2>
 <p>Используются 3 разных базы:</p>
 <ul>
   <li>PostgreSQL в качестве основной базы данных. В ней хранятся данные о маршрутах, автобусах и водителях. Схему базы
-    данных можно найти тут.
+    данных можно найти <a href="transportDB.jpg">тут</a>.
   </li>
   <li>MongoDB используется для хранения регистрационных данных пользователей, их токенов и айпи адресов.</li>
   <li>Redis используется для кеширования</li>
 </ul>
-<p></p>
 </body>
 </html>
