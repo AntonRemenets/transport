@@ -30,6 +30,7 @@ import { ServeStaticModule } from '@nestjs/serve-static'
     }),
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: `.${process.env.NODE_ENV}.env`,
     }),
     JwtModule.register({
       global: true,
