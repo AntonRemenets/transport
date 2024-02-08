@@ -15,6 +15,7 @@ RUN npx prisma generate
 # Bundle app source
 COPY . .
 
+EXPOSE 4500
 # Creates a "dist" folder with the production build
 # RUN npm run build
 
