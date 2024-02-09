@@ -19,7 +19,7 @@ export class UsersService {
   }
 
   // Create
-  public async create(dto: CreateUserDto, ip: string): Promise<User> {
+  public async create(dto: CreateUserDto, _ip: string): Promise<User> {
     const count: number = await this.userModel.countDocuments({})
     if (count >= 25) {
       throw new ForbiddenException('Превышен лимит на создание пользователей. Обратитсь к администратору.')
@@ -29,6 +29,7 @@ export class UsersService {
       throw new BadRequestException(`Пользователь с почтой ${dto.email} уже зарегистророван`)
     }
     const hashedPassword: string = hashSync(dto.password, genSaltSync(10))
+    const ip = this.getIp(_ip)
     const newUser = {
       email: dto.email,
       password: hashedPassword,
@@ -46,7 +47,8 @@ export class UsersService {
   }
 
   // Find One
-  public async findOne(email: string, ip: string): Promise<User> | null {
+  public async findOne(email: string, _ip: string): Promise<User> | null {
+    const ip = this.getIp(_ip)
     const user: User = await this.userModel.findOne({ email })
     if (!user) {
       return null
@@ -102,5 +104,9 @@ export class UsersService {
     } catch (err) {
       this.logger.error(err)
     }
+  }
+
+  private getIp(_ip: string) {
+    return _ip.split(':')[3]
   }
 }
