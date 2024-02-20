@@ -1,4 +1,4 @@
-import { IsIn, IsNotEmpty, IsNumber, IsPositive, Length } from 'class-validator'
+import { IsIn, IsNotEmpty, IsNumber, IsOptional, IsPositive, Length } from 'class-validator'
 import { Field, InputType } from '@nestjs/graphql'
 
 @InputType()
@@ -34,6 +34,7 @@ export class CreateBusDto {
   busRoutesId: number
 
   @Field({ nullable: true })
+  @IsOptional()
   @IsNumber()
   @IsPositive({ message: 'Значение должно быть положительным' })
   driverId?: number

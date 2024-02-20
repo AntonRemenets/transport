@@ -21,6 +21,7 @@ export class CreateDriverDto {
 
   @Field({ nullable: true })
   @IsNumber()
+  @IsOptional()
   @IsPositive({ message: 'Значение должно быть положительным' })
   busId?: number
 }
