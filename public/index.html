@@ -1,17 +1,17 @@
 <!doctype html>
-<html lang="en">
+<html lang='en'>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta charset='UTF-8'>
+  <meta name='viewport'
+        content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible' content='ie=edge'>
   <title>Transport API</title>
 </head>
 <body>
 <h1>Transport</h1>
 <p>Добро пожаловать на страничку моего проекта Путник!</p>
 <p>Этот учебный проект создан на фреймворке NestJS и несет цель демонстацию навыков программированиия серверной части
-  программ. Принципиальная схема приложения <a href="app.jpg">тут</a>.</p>
+  программ. Принципиальная схема приложения <a href='app.jpg'>тут</a>.</p>
 <h2>Стек приложения.</h2>
 <ul>
   <li>интерфесы - RestApi, GraphQL</li>
@@ -31,13 +31,14 @@
   <li>/auth/refresh-tokens - обновление токенов</li>
   <li>кроме того существуют закрытые роуты для администротора</li>
 </ul>
-<p>Для GraphQL эндпойнт - /graphql. Можно пользоваться в браузере(playgraund=true). Не забыть указать токен
+<p>Для GraphQL эндпойнт - /graphql. В браузере зайти не получится (playground = false). Схема <a
+  href='schema.gql'>gql</a> для постмана.Не забыть указать токен
   authorization, тип bearer. Токен выдается при логине.</p>
 <h2>Базы данных.</h2>
 <p>Используются 3 разных базы:</p>
 <ul>
   <li>PostgreSQL в качестве основной базы данных. В ней хранятся данные о маршрутах, автобусах и водителях. Схему базы
-    данных можно найти <a href="transportDB.jpg">тут</a>.
+    данных можно найти <a href='transportDB.jpg'>тут</a>.
   </li>
   <li>MongoDB используется для хранения регистрационных данных пользователей, их токенов и айпи адресов.</li>
   <li>Redis используется для кеширования</li>

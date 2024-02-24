@@ -23,7 +23,7 @@ import { ServeStaticModule } from '@nestjs/serve-static'
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
-      playground: true,
+      playground: false,
       buildSchemaOptions: {
         numberScalarMode: 'integer',
       },

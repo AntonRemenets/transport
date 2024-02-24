@@ -1,0 +1,109 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+"""Bus Routes model"""
+type BusRoutesType {
+  buses: [BusType!]!
+  distance: Float!
+  from: String!
+  id: ID!
+  title: String!
+  to: String!
+}
+
+"""Bus model"""
+type BusType {
+  brand: String!
+  busRoutesId: Int!
+  category: String!
+  drivers: [DriverType!]!
+  id: ID!
+  model: String!
+  vehicle_number: String!
+  vin: String!
+}
+
+input CreateBusDto {
+  brand: String!
+  busRoutesId: Int!
+  category: String!
+  driverId: Int
+  model: String!
+  vehicle_number: String!
+  vin: String!
+}
+
+input CreateDriverDto {
+  busId: Int
+  firstName: String!
+  lastName: String!
+  license: String!
+  patronymic: String!
+}
+
+input CreateRouteDto {
+  distance: Float!
+  from: String!
+  title: String!
+  to: String!
+}
+
+"""Drivers model"""
+type DriverType {
+  buses: [BusType!]!
+  firstName: String!
+  id: ID!
+  lastName: String!
+  license: String!
+  patronymic: String
+}
+
+type Mutation {
+  CreateBus(createBusInput: CreateBusDto!): BusType!
+  CreateDriver(createDriverInput: CreateDriverDto!): DriverType!
+  DeleteBus(id: Int!): BusType!
+  DeleteDriver(id: Int!): DriverType!
+  UpdateBus(id: Int!, updateBusInput: UpdateBusDto!): BusType!
+  UpdateDriver(id: Int!, updateDriverInput: UpdateDriverDto!): DriverType!
+  createRoute(createRouteInput: CreateRouteDto!): BusRoutesType!
+  deleteRoute(id: Int!): BusRoutesType!
+  updateRoute(id: Int!, updateRouteInput: UpdateRouteDto!): BusRoutesType!
+}
+
+type Query {
+  BusRoutes: [BusRoutesType!]!
+  Buses: [BusType!]!
+  GetAllDrivers: [DriverType!]!
+  GetBusById(id: Int!): BusType!
+  GetOneDriver(id: Int!): DriverType!
+}
+
+input UpdateBusDto {
+  addDriverId: Int
+  brand: String
+  busRoutesId: Int
+  category: String
+  driverId: Int
+  model: String
+  removeDriverId: Int
+  vehicle_number: String
+  vin: String
+}
+
+input UpdateDriverDto {
+  addBusId: Int
+  busId: Int
+  firstName: String
+  lastName: String
+  license: String
+  patronymic: String
+  removeBusId: Int
+}
+
+input UpdateRouteDto {
+  distance: Float
+  from: String
+  title: String
+  to: String
+}
